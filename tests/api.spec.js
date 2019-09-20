@@ -60,4 +60,29 @@ describe('Users Controller', () => {
         done();
       });
   });
+  it('GET /users should be able to get a specific userById', done => {
+    chai
+      .request(app)
+      .get('/users/1')
+      .end((err, res)=> {
+        expect(res.status).to.equals(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).equals(200);
+        done();
+
+    });
 });
+it('users should not be able to get a user if provided unexisted id', done => {
+  chai
+    .request(app)
+    .get('/users/7')
+    .end((err, res)=> {
+      expect(res.status).to.equals(404);
+      expect(res.body.status).to.equals(404);
+      expect(res.body.message).to.equals('user of that id is not found');
+      done();
+
+    })
+})
+})
+
