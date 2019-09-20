@@ -26,6 +26,22 @@ app.get('/users', (req, res) => {
     .status(200)
     .json({ status: 200, message: 'API running!!!!!', data: users });
 });
+app.get('/users/:id', (req, res) => {
+  const userId = users.find(i=>i.id === parseInt(req.params.id));
+  if(userId){
+    res.status(200).json({
+      status : 200,
+      data: userId
+    })
+  }
+  if(!userId){
+    res.status(404).json({
+      status: 404,
+      message: 'user of that id is not found'
+    })
+  }
+  
+});
 app.post('/users', (req, res) => {
   const { id, name, role, admin } = req.body;
   res.status(201).json({
