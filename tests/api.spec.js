@@ -61,3 +61,33 @@ describe('Users Controller', () => {
       });
   });
 });
+
+
+describe('Users Modifying', () => {
+  it('Delete /users should delete information', done => {
+    chai
+      .request(app)
+      .delete('/users')
+      .end((err, res) => {
+        expect(res.status).to.equals(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.be.empty;
+     
+        done();
+      });
+  });
+
+  it('UPDATE /users should update information', done => {
+    chai
+      .request(app)
+      .put('/users')
+      .end((err, res) => {
+        expect(res.status).to.equals(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body.name).not.to.be.null;
+        expect(res.body.role).not.to.be.null;
+     
+        done();
+      });
+  });
+});

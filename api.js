@@ -35,7 +35,91 @@ app.post('/users', (req, res) => {
   });
 });
 
+
+
+// Delete
+
+
+ const deleteInfo= (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  users.map((info, index) => {
+    if (info.id === id) {
+       users.splice(index, 1);
+       return res.status(200).send({
+         success: 'true',
+         message: 'Information deleted successfuly'
+       });
+    }
+  });
+
+
+    return res.status(404).send({
+      success: 'false',
+      message: 'info not found'
+    });
+
+ 
+};
+
+//Update information
+
+const putInfo = (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  let infoFound;
+  let itemIndex;
+  users.map((info, index) => {
+    if (info.id === id) {
+      infoFound = info;
+      itemIndex = index;
+    }
+  });
+
+  if (!infoFound) {
+    return res.status(404).send({
+      success: 'false',
+      message: 'information not found'
+    });
+  }
+
+  if (!req.body.name) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'Name is required',
+    });
+  } else if (!req.body.role) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'Role is required'
+    });
+  }
+
+  const updatedInfo = {
+    id: infoFound.id,
+    name: req.body.name || infoFound.name,
+      role: req.body.role || infoFound.role
+  };
+
+  users.splice(itemIndex, 1, updatedInfo);
+  
+
+  return res.status(400).send({
+ success: 'true',
+  message: 'Information updated successfully',
+    updatedInfo
+  });
+ };
+
+
+ 
+
+
+
+
+
 app.listen(3000, () => {
   console.debug(`Server running 3000`);
 });
 export default app;
+
+
